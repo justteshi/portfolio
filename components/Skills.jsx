@@ -14,7 +14,7 @@ const Skills = () => {
 						<div className="grid grid-cols-2 gap-4 justify-center items-center">
 							<div className="m-auto">
 								<Image
-									src="/../public/assets/skills/html.png"
+									src="/assets/skills/html.png"
 									width="64px"
 									height="64px"
 									alt="/"
@@ -29,7 +29,7 @@ const Skills = () => {
 						<div className="grid grid-cols-2 gap-4 justify-center items-center">
 							<div className="m-auto">
 								<Image
-									src="/../public/assets/skills/css.png"
+									src="/assets/skills/css.png"
 									width="64px"
 									height="64px"
 									alt="/"
@@ -44,7 +44,7 @@ const Skills = () => {
 						<div className="grid grid-cols-2 gap-4 justify-center items-center">
 							<div className="m-auto">
 								<Image
-									src="/../public/assets/skills/sass.png"
+									src="/assets/skills/sass.png"
 									width="64px"
 									height="64px"
 									alt="/"
@@ -59,7 +59,7 @@ const Skills = () => {
 						<div className="grid grid-cols-2 gap-4 justify-center items-center">
 							<div className="m-auto">
 								<Image
-									src="/../public/assets/skills/js.png"
+									src="/assets/skills/js.png"
 									width="64px"
 									height="64px"
 									alt="/"
@@ -74,7 +74,7 @@ const Skills = () => {
 						<div className="grid grid-cols-2 gap-4 justify-center items-center">
 							<div className="m-auto">
 								<Image
-									src="/../public/assets/skills/python.png"
+									src="/assets/skills/python.png"
 									width="64px"
 									height="64px"
 									alt="/"
@@ -89,7 +89,7 @@ const Skills = () => {
 						<div className="grid grid-cols-2 gap-4 justify-center items-center">
 							<div className="m-auto">
 								<Image
-									src="/../public/assets/skills/django.png"
+									src="/assets/skills/django.png"
 									width="64px"
 									height="64px"
 									alt="/"
@@ -104,7 +104,7 @@ const Skills = () => {
 						<div className="grid grid-cols-2 gap-4 justify-center items-center">
 							<div className="m-auto">
 								<Image
-									src="/../public/assets/skills/react.png"
+									src="/assets/skills/react.png"
 									width="64px"
 									height="64px"
 									alt="/"
