@@ -10,7 +10,9 @@ const About = () => {
 						About
 					</p>
 					<h2 className="py-4">Who I Am</h2>
-					<p className="py-2 text-gray-600">// !Normal Web Developer</p>
+					<p className="py-2 text-gray-600">
+						&#8725;&#8725; !Normal Web Developer
+					</p>
 					<p className="py-2 text-gray-600">
 						Follow along as I Build a NEXT JS Portfolio Website With Tailwind
 						CSS. I wanted to update the portfolio and since I am starting to
@@ -32,7 +34,7 @@ const About = () => {
 				</div>
 				<div className="w-full h-auto m-auto shadow-xl shadow-gray-400 rounded-xl flex items-center justify-center p-4 hover:scale-105 ease-in duration-300">
 					<img
-                        className="rounded-xl"
+						className="rounded-xl"
 						src="https://images.unsplash.com/photo-1624996752380-8ec242e0f85d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80"
 						alt=""
 					/>
