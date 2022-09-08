@@ -8,8 +8,6 @@ import eventsImage from "../public/assets/projects/events.png";
 import schoolImage from "../public/assets/projects/school_frontend.png";
 import mentaImage from "../public/assets/projects/menta_social_app.png";
 
-
-
 import ProjectItem from "../components/ProjectItem";
 const Projects = () => {
 	return (
