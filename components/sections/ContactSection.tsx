@@ -5,8 +5,8 @@ export default function ContactSection() {
     <section id="contact" className="section-shell section-rule scroll-mt-20 bg-ink text-canvas">
       <Container>
         <p className="eyebrow mb-10 text-canvas before:bg-signal">04 / Contact</p>
-        <h2 className="heading-type max-w-[12ch]">Have a project in mind? Let&apos;s make it real.</h2>
-        <div className="mt-16 grid gap-12 border-t border-white/20 pt-8 md:grid-cols-[0.7fr_1.3fr]">
+        <h2 className="heading-type max-w-[12ch]" data-motion="reveal">Have a project in mind? Let&apos;s make it real.</h2>
+        <div className="mt-16 grid gap-12 border-t border-white/20 pt-8 md:grid-cols-[0.7fr_1.3fr]" data-motion="reveal">
           <div><p className="body-large text-white/60">I&apos;m available for freelance or full-time positions. Send a note and let&apos;s talk.</p></div>
           <form className="grid gap-6" action="https://getform.io/f/a49e115e-1ffd-44d7-abf8-7a4a7fb19ac3" method="POST">
             <div className="grid gap-6 sm:grid-cols-2">

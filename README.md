@@ -18,3 +18,13 @@ npm run lint
 npm run typecheck
 npm run build
 ```
+
+## Motion debugging
+
+Reusable scroll reveals are opt-in through `data-motion` attributes. To display ScrollTrigger markers during local development, start the app with:
+
+```bash
+NEXT_PUBLIC_GSAP_DEBUG=true npm run dev
+```
+
+Markers are disabled in production regardless of the environment variable.

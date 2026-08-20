@@ -5,7 +5,7 @@ import type { Project } from "@/types/portfolio";
 
 export default function ProjectCard({ project, index }: { project: Project; index: number }) {
   return (
-    <article className="group grid overflow-hidden rounded-[var(--radius-lg)] bg-panel md:grid-cols-[0.8fr_1.2fr]">
+    <article className="group grid overflow-hidden rounded-[var(--radius-lg)] bg-panel md:grid-cols-[0.8fr_1.2fr]" data-motion-item>
       <div className="flex min-h-72 flex-col justify-between p-6 md:p-8">
         <span className="font-mono text-xs text-muted">PROJECT / {String(index + 1).padStart(2, "0")}</span>
         <div><p className="mb-3 font-mono text-xs uppercase tracking-widest text-muted">{project.builtWith}</p><h3 className="text-4xl md:text-5xl">{project.title}</h3></div>

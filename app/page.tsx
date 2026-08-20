@@ -4,6 +4,7 @@ import HeroSection from "@/components/sections/HeroSection";
 import ProjectsSection from "@/components/sections/ProjectsSection";
 import SkillsSection from "@/components/sections/SkillsSection";
 import Navbar from "@/components/layout/Navbar";
+import GlobalMotion from "@/components/animation/GlobalMotion";
 
 export default function HomePage() {
   return (
@@ -16,6 +17,7 @@ export default function HomePage() {
         <ProjectsSection />
         <ContactSection />
       </main>
+      <GlobalMotion />
     </>
   );
 }
