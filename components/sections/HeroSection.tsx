@@ -1,12 +1,30 @@
 "use client";
 
+import { useGSAP } from "@gsap/react";
+import Image from "next/image";
 import { useRef } from "react";
-import { FaArrowDownLong } from "react-icons/fa6";
-import ActionLink from "@/components/ui/ActionLink";
-import Container from "@/components/ui/Container";
 import { getGsap } from "@/lib/gsap";
 import { motionDebug } from "@/lib/motion";
-import { useGSAP } from "@gsap/react";
+
+const bands = [
+  { direction: -1, duration: 270, words: ["MAKER. ", "PROBLEM ", "SOLVER. ", "TECH ", "GENERALIST. "] },
+  { direction: 1, duration: 240, words: ["FRONT-END ", "DEVELOPER. ", "ACCESSIBLE. ", "RESPONSIVE. "] },
+  { direction: -1, duration: 290, words: ["INTERFACE ", "ENGINEER. ", "MOTION ", "DESIGNER. "] },
+  { direction: 1, duration: 255, words: ["CREATIVE ", "DEVELOPER. ", "SYSTEM ", "THINKER. "] },
+  { direction: -1, duration: 285, words: ["PERFORMANCE. ", "DETAIL ", "OBSESSED. ", "WEB ", "BUILDER. "] },
+  { direction: 1, duration: 245, words: ["CRAFT. ", "CODE. ", "MOTION. ", "PURPOSE. "] },
+  { direction: -1, duration: 275, words: ["REACT. ", "NEXT.JS. ", "GSAP. ", "TYPESCRIPT. "] },
+  { direction: 1, duration: 310, words: ["ACCESSIBILITY. ", "PERFORMANCE. ", "CLARITY. ", "DETAIL. "] },
+  { direction: -1, duration: 260, words: ["DIGITAL ", "EXPERIENCES. ", "BUILT ", "WELL. "] },
+  { direction: 1, duration: 280, words: ["USER ", "FOCUSED. ", "DETAIL ", "DRIVEN. "] },
+  { direction: -1, duration: 320, words: ["DESIGN ", "SYSTEMS. ", "REUSABLE ", "COMPONENTS. "] },
+  { direction: 1, duration: 295, words: ["ANIMATION. ", "INTERACTION. ", "RHYTHM. ", "FLOW. "] },
+  { direction: -1, duration: 250, words: ["HTML. ", "CSS. ", "JAVASCRIPT. ", "REACT. "] },
+  { direction: 1, duration: 330, words: ["PYTHON. ", "DJANGO. ", "WORDPRESS. ", "WEB. "] },
+  { direction: -1, duration: 275, words: ["BUILD. ", "TEST. ", "REFINE. ", "SHIP. "] },
+] as const;
+
+const highlightedWords = new Set(["SOLVER. ", "GENERALIST. ", "DEVELOPER. ", "ENGINEER. ", "DESIGNER. ", "THINKER. ", "PERFORMANCE. ", "BUILDER. ", "GSAP. ", "TYPESCRIPT. ", "EXPERIENCES. ", "FOCUSED. ", "SYSTEMS. ", "COMPONENTS. ", "INTERACTION. ", "JAVASCRIPT. ", "REACT. ", "DJANGO. ", "WORDPRESS. ", "SHIP. "]);
 
 export default function HeroSection() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -14,69 +32,59 @@ export default function HeroSection() {
   useGSAP(() => {
     const section = sectionRef.current;
     if (!section) return;
-
-    const { gsap } = getGsap();
+    const { gsap, ScrollTrigger } = getGsap();
     const media = gsap.matchMedia();
 
     media.add(
       {
-        desktop: "(min-width: 768px) and (pointer: fine)",
-        mobile: "(max-width: 767px)",
+        motionAllowed: "(prefers-reduced-motion: no-preference)",
         reduceMotion: "(prefers-reduced-motion: reduce)",
       },
       (context) => {
-        const { desktop, reduceMotion } = context.conditions as { desktop: boolean; mobile: boolean; reduceMotion: boolean };
-        const words = gsap.utils.toArray<HTMLElement>("[data-hero-word]");
-        const lines = gsap.utils.toArray<HTMLElement>("[data-hero-line]");
-        const visual = section.querySelector<HTMLElement>("[data-hero-visual]");
-        const details = section.querySelector<HTMLElement>("[data-hero-details]");
-        const indicator = section.querySelector<HTMLElement>("[data-hero-indicator]");
+        const { reduceMotion } = context.conditions as { motionAllowed: boolean; reduceMotion: boolean };
+        const tracks = gsap.utils.toArray<HTMLElement>("[data-hero-track]");
+        const orderedTracks = [...tracks].sort((a, b) => {
+          const center = (tracks.length - 1) / 2;
+          return Math.abs(tracks.indexOf(a) - center) - Math.abs(tracks.indexOf(b) - center);
+        });
+        const highlights = gsap.utils.toArray<HTMLElement>("[data-hero-highlight]");
+        const portrait = section.querySelector<HTMLElement>("[data-hero-portrait]");
+        const portraitFloat = section.querySelector<HTMLElement>("[data-hero-portrait-float]");
 
         if (reduceMotion) {
-          gsap.set([words, lines, visual, details, indicator], { clearProps: "all" });
+          gsap.set([...tracks, ...highlights, portrait, portraitFloat], { clearProps: "all" });
           return;
         }
 
-        const intro = gsap.timeline({ defaults: { ease: "power3.out" } });
-        intro
-          .from(words, { autoAlpha: 0, xPercent: (index) => index % 2 ? 8 : -8, duration: 1.1, stagger: 0.08 })
-          .from("[data-hero-kicker]", { autoAlpha: 0, y: 20, duration: 0.55 }, 0.15)
-          .from(lines, { autoAlpha: 0, yPercent: 105, duration: 0.9, stagger: 0.1 }, 0.25)
-          .from(visual, { autoAlpha: 0, scale: 0.72, rotate: -10, duration: 1.1 }, 0.35)
-          .from(details, { autoAlpha: 0, y: 24, duration: 0.7 }, 0.7)
-          .from(indicator, { autoAlpha: 0, y: -12, duration: 0.5 }, 0.95);
+        gsap.set(tracks, { force3D: true });
 
-        gsap.timeline({
-          scrollTrigger: {
-            trigger: section,
-            start: "top top",
-            end: "bottom top",
-            scrub: 0.6,
-            markers: motionDebug,
-          },
-        })
-          .to(words[0], { xPercent: -12, ease: "none" }, 0)
-          .to(words[1], { xPercent: 12, ease: "none" }, 0)
-          .to(visual, { yPercent: 35, rotate: 10, scale: 0.9, ease: "none" }, 0)
-          .to("[data-hero-content]", { yPercent: -8, autoAlpha: 0.25, ease: "none" }, 0.25);
+        const marquees = tracks.map((track) => {
+          const direction = Number(track.dataset.direction);
+          const duration = Number(track.dataset.duration);
+          return gsap.fromTo(track, { xPercent: direction < 0 ? 0 : -50 }, { xPercent: direction < 0 ? -50 : 0, duration, repeat: -1, ease: "none", force3D: true, overwrite: "auto" });
+        });
 
-        if (desktop && visual) {
-          const moveVisualX = gsap.quickTo(visual, "x", { duration: 0.8, ease: "power3.out" });
-          const moveVisualY = gsap.quickTo(visual, "y", { duration: 0.8, ease: "power3.out" });
-          const moveWordX = words.map((word) => gsap.quickTo(word, "x", { duration: 1.2, ease: "power3.out" }));
+        gsap.timeline({ defaults: { ease: "power3.out" } })
+          .from(orderedTracks, { autoAlpha: 0, x: (index) => index % 2 ? 56 : -56, duration: 1, stagger: 0.055 })
+          .from(highlights, { opacity: 0.24, duration: 1.1, ease: "sine.out" }, 0.32)
+          .from(portrait, { autoAlpha: 0, yPercent: 24, scale: 0.9, duration: 1.25, ease: "power4.out" }, 0.38);
 
-          const handlePointer = (event: PointerEvent) => {
-            const bounds = section.getBoundingClientRect();
-            const normalizedX = (event.clientX - bounds.left) / bounds.width - 0.5;
-            const normalizedY = (event.clientY - bounds.top) / bounds.height - 0.5;
-            moveVisualX(normalizedX * 24);
-            moveVisualY(normalizedY * 18);
-            moveWordX.forEach((move, index) => move(normalizedX * (index ? -14 : 14)));
-          };
-
-          section.addEventListener("pointermove", handlePointer, { passive: true });
-          return () => section.removeEventListener("pointermove", handlePointer);
+        if (portraitFloat) {
+          gsap.to(portraitFloat, { y: -8, duration: 5.5, repeat: -1, yoyo: true, ease: "sine.inOut" });
         }
+
+        const visibilityTrigger = ScrollTrigger.create({
+          trigger: section,
+          start: "top bottom",
+          end: "bottom top",
+          onEnter: () => marquees.forEach((marquee) => marquee.play()),
+          onEnterBack: () => marquees.forEach((marquee) => marquee.play()),
+          onLeave: () => marquees.forEach((marquee) => marquee.pause()),
+          onLeaveBack: () => marquees.forEach((marquee) => marquee.pause()),
+          markers: motionDebug,
+        });
+
+        return () => visibilityTrigger.kill();
       },
     );
 
@@ -84,38 +92,36 @@ export default function HeroSection() {
   }, { scope: sectionRef });
 
   return (
-    <section ref={sectionRef} id="home" className="relative flex min-h-svh overflow-hidden pt-24 pb-8 md:pt-28 md:pb-10">
-      <div className="pointer-events-none absolute inset-0 select-none overflow-hidden" aria-hidden>
-        <p data-hero-word className="absolute top-[15%] -left-[3vw] whitespace-nowrap text-[clamp(6rem,18vw,18rem)] leading-none font-semibold tracking-[-0.08em] text-panel">DESIGN</p>
-        <p data-hero-word className="absolute right-[-4vw] bottom-[7%] whitespace-nowrap text-[clamp(6rem,18vw,18rem)] leading-none font-semibold tracking-[-0.08em] text-panel">DEVELOP</p>
-      </div>
+    <section ref={sectionRef} id="home" className="relative overflow-hidden bg-canvas pt-16 text-ink">
+      <div data-hero-wall className="pointer-events-none relative flex flex-col overflow-hidden border-y border-line bg-panel select-none" aria-hidden>
+        {bands.map((band, bandIndex) => (
+          <div key={bandIndex} data-hero-track data-direction={band.direction} data-duration={band.duration} className="flex w-max transform-gpu whitespace-nowrap [backface-visibility:hidden] will-change-transform">
+            {[0, 1].map((copy) => (
+              <p key={copy} className="pr-12 text-[clamp(2.35rem,5.3vw,5.4rem)] leading-[0.84] font-bold tracking-[-0.042em] uppercase">
+                {[0, 1, 2].map((cycle) => band.words.map((word, wordIndex) => {
+                  const isHighlighted = highlightedWords.has(word);
+                  return <span key={`${cycle}-${word}-${wordIndex}`} data-hero-highlight={isHighlighted ? "" : undefined} className={isHighlighted ? `inline-block ${bandIndex % 2 ? "text-accent/70" : "text-accent/55"}` : "text-ink/16"}>{word}</span>;
+                }))}
+              </p>
+            ))}
+          </div>
+        ))}
 
-      <div data-hero-visual className="pointer-events-none absolute top-[23%] right-[5vw] z-[1] size-[clamp(13rem,31vw,30rem)] rounded-full border border-ink/15 bg-signal shadow-[inset_0_0_0_clamp(1rem,3vw,3rem)_var(--canvas)] md:right-[10vw]" aria-hidden>
-        <div className="absolute top-1/2 left-1/2 size-[38%] -translate-1/2 rounded-full bg-accent" />
-        <span className="absolute top-[20%] left-[16%] font-mono text-[0.65rem] tracking-widest uppercase">Idea</span>
-        <span className="absolute right-[13%] bottom-[21%] font-mono text-[0.65rem] tracking-widest uppercase">Interface</span>
-      </div>
-
-      <Container className="relative z-10 flex flex-1 flex-col justify-between" data-hero-content>
-        <p data-hero-kicker className="eyebrow mt-4">Front-end developer / Sofia</p>
-
-        <div className="my-auto py-16 md:py-10">
-          <h1 className="display-type relative max-w-[11ch]">
-            <span className="block overflow-hidden"><span data-hero-line className="block">Digital craft</span></span>
-            <span className="block overflow-hidden"><span data-hero-line className="block text-accent">with intent.</span></span>
-          </h1>
-        </div>
-
-        <div data-hero-details className="grid items-end gap-8 border-t border-ink/25 pt-6 md:grid-cols-[1fr_auto]">
-          <p className="body-large max-w-xl text-muted">I&apos;m Teo, a developer turning thoughtful design into fast, expressive interfaces for the modern web.</p>
-          <div className="flex flex-wrap gap-3">
-            <ActionLink href="#projects">Selected work</ActionLink>
-            <ActionLink href="#contact" variant="outline">Get in touch</ActionLink>
+        <div data-hero-portrait className="absolute inset-x-0 bottom-0 z-10 flex h-[92%] origin-bottom items-end justify-center">
+          <div data-hero-portrait-float className="flex h-full items-end justify-center will-change-transform">
+            <Image
+              src="/assets/hero/editorial-developer-waist.png"
+              alt=""
+              width={1024}
+              height={1536}
+              priority
+              sizes="(max-width: 640px) 72vw, (max-width: 1024px) 52vw, 38vw"
+              className="h-full w-auto max-w-[82vw] object-contain object-bottom grayscale contrast-[1.08] drop-shadow-[0_1.5rem_2.5rem_rgba(19,37,28,0.16)] sm:max-w-[62vw] lg:max-w-[46vw]"
+            />
           </div>
         </div>
+      </div>
 
-        <a data-hero-indicator href="#about" className="mt-8 inline-flex w-fit items-center gap-3 font-mono text-xs tracking-widest uppercase" aria-label="Scroll to about section">Explore <FaArrowDownLong aria-hidden /></a>
-      </Container>
     </section>
   );
 }

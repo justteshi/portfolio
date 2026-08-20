@@ -13,13 +13,13 @@
 }
 
 :root {
-  --canvas: #f2f0e9;
-  --panel: #e7e4dc;
-  --ink: #11110f;
-  --muted: #66645e;
-  --line: #cbc7bd;
-  --accent: #5b42e6;
-  --signal: #c7ff35;
+  --canvas: #f5f3eb;
+  --panel: #e2e9df;
+  --ink: #13251c;
+  --muted: #5f7066;
+  --line: #c5cfc7;
+  --accent: #1f6047;
+  --signal: #c8dca2;
   --content-max: 80rem;
   --gutter: clamp(1.25rem, 4vw, 4rem);
   --section-space: clamp(6rem, 12vw, 11rem);
