@@ -1,23 +1,22 @@
-import { AiOutlineMail } from "react-icons/ai";
-import { BsPersonLinesFill } from "react-icons/bs";
-import { FaGithub, FaLinkedinIn } from "react-icons/fa";
+import { FaArrowDownLong } from "react-icons/fa6";
+import ActionLink from "@/components/ui/ActionLink";
+import Container from "@/components/ui/Container";
 
 export default function HeroSection() {
   return (
-    <section id="home" className="h-screen w-full text-center">
-      <div className="mx-auto flex h-full w-full max-w-[1240px] items-center justify-center p-2">
-        <div>
-          <p className="text-sm tracking-widest text-gray-600 uppercase">Lets create something</p>
-          <h1 className="py-4 text-gray-700">Hi, I&apos;m <span className="text-[#5651e5]">Teo</span></h1>
-          <h1 className="py-4 text-gray-700">A Front-End Web Developer</h1>
-          <p className="m-auto max-w-[70%] py-4 text-gray-600">Lets create something</p>
-          <div className="m-auto flex max-w-[330px] items-center justify-between py-4" aria-label="Social links">
-            {[FaLinkedinIn, FaGithub, AiOutlineMail, BsPersonLinesFill].map((Icon, index) => (
-              <div key={index} className="cursor-pointer rounded-full p-6 shadow-lg shadow-gray-400 duration-300 ease-in hover:scale-110"><Icon /></div>
-            ))}
+    <section id="home" className="flex min-h-svh items-end pt-28 pb-10 md:pt-36 md:pb-14">
+      <Container>
+        <p className="eyebrow mb-8">Front-end developer</p>
+        <h1 className="display-type max-w-[12ch]">Digital experiences with clarity and character.</h1>
+        <div className="mt-10 grid items-end gap-8 border-t border-line pt-6 md:grid-cols-[1fr_auto]">
+          <p className="body-large text-muted">I&apos;m Teo, a developer building thoughtful interfaces for the modern web.</p>
+          <div className="flex flex-wrap gap-3">
+            <ActionLink href="#projects">Selected work</ActionLink>
+            <ActionLink href="#contact" variant="outline">Get in touch</ActionLink>
           </div>
         </div>
-      </div>
+        <a href="#about" className="mt-12 inline-flex items-center gap-3 font-mono text-xs uppercase tracking-widest" aria-label="Scroll to about section">Explore <FaArrowDownLong aria-hidden /></a>
+      </Container>
     </section>
   );
 }

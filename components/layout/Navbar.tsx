@@ -1,61 +1,47 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { AiOutlineClose, AiOutlineMail, AiOutlineMenu } from "react-icons/ai";
-import { BsPersonLinesFill } from "react-icons/bs";
-import { FaGithub, FaLinkedinIn } from "react-icons/fa";
+import { AiOutlineClose, AiOutlineMenu } from "react-icons/ai";
+import Container from "@/components/ui/Container";
 
 const navigation = [
-  { label: "Home", href: "/" },
   { label: "About", href: "/#about" },
-  { label: "Skills", href: "/#skills" },
-  { label: "Projects", href: "/#projects" },
+  { label: "Capabilities", href: "/#skills" },
+  { label: "Work", href: "/#projects" },
   { label: "Contact", href: "/#contact" },
 ];
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
-  const [shadow, setShadow] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => setShadow(window.scrollY >= 90);
+    const handleScroll = () => setScrolled(window.scrollY > 24);
     handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  return (
-    <header className={`fixed z-[100] h-20 w-full bg-white ${shadow ? "shadow-xl" : ""}`}>
-      <nav className="flex h-full w-full items-center justify-between px-2 2xl:px-16" aria-label="Primary navigation">
-        <Link href="/" aria-label="Home"><Image src="/assets/logo.PNG" alt="Teo logo" width={60} height={60} priority /></Link>
-        <ul className="hidden md:flex">
-          {navigation.map(({ label, href }) => <li key={label}><Link className="ml-10 text-sm uppercase hover:border-b" href={href}>{label}</Link></li>)}
-        </ul>
-        <button type="button" onClick={() => setOpen(true)} className="bg-none p-1 text-gray-800 shadow-none md:hidden" aria-label="Open navigation" aria-expanded={open}><AiOutlineMenu size={25} /></button>
-      </nav>
+  useEffect(() => {
+    document.body.style.overflow = open ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [open]);
 
-      <div className={open ? "fixed top-0 left-0 h-screen w-full bg-black/70 md:hidden" : ""} aria-hidden={!open}>
-        <div className={`fixed top-0 h-screen bg-[#ecf0f3] p-10 duration-500 ease-in ${open ? "left-0 w-[75%] sm:w-[60%] md:w-[45%]" : "-left-full"}`}>
-          <div className="flex w-full items-center justify-between">
-            <Image src="/assets/logo.PNG" alt="Teo logo" width={60} height={60} />
-            <button type="button" onClick={() => setOpen(false)} className="cursor-pointer rounded-full bg-none p-3 text-gray-800 shadow-lg shadow-gray-400" aria-label="Close navigation"><AiOutlineClose size={25} /></button>
-          </div>
-          <div className="my-4 border-b border-gray-300"><p className="w-[85%] py-4 md:w-[90%]">Lets build something cool.</p></div>
-          <div className="flex-col py-4">
-            <ul className="uppercase">
-              {navigation.map(({ label, href }) => <li key={label}><Link className="block py-4 text-sm" href={href} onClick={() => setOpen(false)}>{label}</Link></li>)}
-            </ul>
-            <div className="pt-16">
-              <p className="tracking-widest text-[#5651e5] uppercase">Lets Connect</p>
-              <div className="my-4 flex w-full items-center justify-between sm:w-[80%]">
-                {[FaLinkedinIn, FaGithub, AiOutlineMail, BsPersonLinesFill].map((Icon, index) => <div key={index} className="cursor-pointer rounded-full p-3 shadow-lg shadow-gray-400 duration-300 ease-in hover:scale-105"><Icon /></div>)}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+  return (
+    <header className={`fixed inset-x-0 top-0 z-50 transition-colors ${scrolled || open ? "border-b border-line bg-canvas/95 backdrop-blur-md" : ""}`}>
+      <Container className="flex h-20 items-center justify-between">
+        <Link href="/" className="font-mono text-sm font-bold tracking-[-0.04em]" aria-label="Teo, home">TEO<span className="text-accent">.</span></Link>
+        <nav className="hidden md:block" aria-label="Primary navigation">
+          <ul className="flex items-center gap-8">{navigation.map((item) => <li key={item.label}><Link className="font-mono text-xs font-medium uppercase tracking-widest text-muted transition-colors hover:text-ink" href={item.href}>{item.label}</Link></li>)}</ul>
+        </nav>
+        <button type="button" onClick={() => setOpen((value) => !value)} className="grid size-11 place-items-center rounded-full border border-line md:hidden" aria-label={open ? "Close navigation" : "Open navigation"} aria-expanded={open}>{open ? <AiOutlineClose size={21} /> : <AiOutlineMenu size={21} />}</button>
+      </Container>
+      {open ? (
+        <nav className="min-h-[calc(100svh-5rem)] border-t border-line bg-canvas md:hidden" aria-label="Mobile navigation">
+          <Container><ul className="divide-y divide-line">{navigation.map((item, index) => <li key={item.label}><Link className="flex items-center justify-between py-7 text-3xl font-semibold tracking-[-0.04em]" href={item.href} onClick={() => setOpen(false)}>{item.label}<span className="font-mono text-xs text-muted">0{index + 1}</span></Link></li>)}</ul></Container>
+        </nav>
+      ) : null}
     </header>
   );
 }
