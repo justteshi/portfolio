@@ -5,6 +5,7 @@ import ProjectsSection from "@/components/sections/ProjectsSection";
 import PlaygroundSection from "@/components/sections/PlaygroundSection";
 import StackSection from "@/components/sections/StackSection";
 import CurrentlySection from "@/components/sections/CurrentlySection";
+import GithubSection from "@/components/sections/GithubSection";
 import Navbar from "@/components/layout/Navbar";
 import GlobalMotion from "@/components/animation/GlobalMotion";
 
@@ -19,6 +20,7 @@ export default function HomePage() {
         <PlaygroundSection />
         <StackSection />
         <CurrentlySection />
+        <GithubSection />
         <ContactSection />
       </main>
       <GlobalMotion />

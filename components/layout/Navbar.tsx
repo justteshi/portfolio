@@ -11,6 +11,7 @@ const navigation = [
   { label: "Playground", href: "/#playground" },
   { label: "Stack", href: "/#stack" },
   { label: "Currently", href: "/#currently" },
+  { label: "GitHub", href: "/#github" },
   { label: "Contact", href: "/#contact" },
 ];
 
