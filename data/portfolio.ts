@@ -9,15 +9,19 @@ import schoolImage from "@/public/assets/projects/school_frontend.png";
 import type { Project, Skill } from "@/types/portfolio";
 
 export const projects: Project[] = [
-  { title: "Carmon", image: carmonImage, href: "/carmon", builtWith: "WordPress" },
-  { title: "MODI", image: modiImage, href: "/modi", builtWith: "React JS" },
-  { title: "EAEXPO", image: eaexpoImage, href: "/eaexpo", builtWith: "Django" },
-  { title: "Expense Calculator", image: expenseCalculatorImage, href: "/expense-calculator", builtWith: "Django" },
-  { title: "Excelsior Clinic", image: excelsiorImage, href: "/excelsior", builtWith: "Django / React JS" },
-  { title: "Events Abrites", image: eventsImage, href: "/events-abrites", builtWith: "Django" },
-  { title: "School Layout", image: schoolImage, href: "/school-layout", builtWith: "Django" },
-  { title: "Ment Social App", image: mentaImage, href: "/menta-social", builtWith: "React JS" },
+  { slug: "carmon", title: "Carmon", image: carmonImage, href: "/projects/carmon", builtWith: "WordPress" },
+  { slug: "modi", title: "MODI", image: modiImage, href: "/projects/modi", builtWith: "React JS" },
+  { slug: "eaexpo", title: "EAEXPO", image: eaexpoImage, href: "/projects/eaexpo", builtWith: "Django" },
+  { slug: "expense-calculator", title: "Expense Calculator", image: expenseCalculatorImage, href: "/projects/expense-calculator", builtWith: "Django" },
+  { slug: "excelsior", title: "Excelsior Clinic", image: excelsiorImage, href: "/projects/excelsior", builtWith: "Django / React JS" },
+  { slug: "events-abrites", title: "Events Abrites", image: eventsImage, href: "/projects/events-abrites", builtWith: "Django" },
+  { slug: "school-layout", title: "School Layout", image: schoolImage, href: "/projects/school-layout", builtWith: "Django" },
+  { slug: "menta-social", title: "Ment Social App", image: mentaImage, href: "/projects/menta-social", builtWith: "React JS" },
 ];
+
+export function getProject(slug: string) {
+  return projects.find((project) => project.slug === slug);
+}
 
 export const skills: Skill[] = [
   { name: "HTML", image: "/assets/skills/html.png" },

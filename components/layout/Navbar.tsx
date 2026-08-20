@@ -7,8 +7,9 @@ import Container from "@/components/ui/Container";
 
 const navigation = [
   { label: "About", href: "/#about" },
-  { label: "Capabilities", href: "/#skills" },
   { label: "Work", href: "/#projects" },
+  { label: "Playground", href: "/#playground" },
+  { label: "Stack", href: "/#stack" },
   { label: "Contact", href: "/#contact" },
 ];
 

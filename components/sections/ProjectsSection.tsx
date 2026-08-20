@@ -96,7 +96,7 @@ export default function ProjectsSection() {
   return (
     <section ref={sectionRef} id="projects" className="section-shell section-rule scroll-mt-20">
       <Container>
-        <SectionHeading eyebrow="03 / Selected work" title="Projects shaped by context, not convention." />
+        <SectionHeading eyebrow="02 / Selected work" title="Projects shaped by context, not convention." />
         <div data-project-story className="mt-16 grid gap-12 lg:grid-cols-[0.72fr_1.28fr] lg:gap-16">
           <div>
             {projects.map((project, index) => <ProjectNarrative key={project.title} project={project} index={index} total={projects.length} />)}
