@@ -42,17 +42,18 @@ export default function HeroSection() {
       },
       (context) => {
         const { reduceMotion } = context.conditions as { motionAllowed: boolean; reduceMotion: boolean };
+        const rows = gsap.utils.toArray<HTMLElement>("[data-hero-row]");
         const tracks = gsap.utils.toArray<HTMLElement>("[data-hero-track]");
-        const orderedTracks = [...tracks].sort((a, b) => {
-          const center = (tracks.length - 1) / 2;
-          return Math.abs(tracks.indexOf(a) - center) - Math.abs(tracks.indexOf(b) - center);
+        const orderedRows = [...rows].sort((a, b) => {
+          const center = (rows.length - 1) / 2;
+          return Math.abs(rows.indexOf(a) - center) - Math.abs(rows.indexOf(b) - center);
         });
         const highlights = gsap.utils.toArray<HTMLElement>("[data-hero-highlight]");
         const portrait = section.querySelector<HTMLElement>("[data-hero-portrait]");
         const portraitFloat = section.querySelector<HTMLElement>("[data-hero-portrait-float]");
 
         if (reduceMotion) {
-          gsap.set([...tracks, ...highlights, portrait, portraitFloat], { clearProps: "all" });
+          gsap.set([...rows, ...tracks, ...highlights, portrait, portraitFloat], { clearProps: "all" });
           return;
         }
 
@@ -65,7 +66,7 @@ export default function HeroSection() {
         });
 
         gsap.timeline({ defaults: { ease: "power3.out" } })
-          .from(orderedTracks, { autoAlpha: 0, x: (index) => index % 2 ? 56 : -56, duration: 1, stagger: 0.055 })
+          .from(orderedRows, { autoAlpha: 0, x: (index) => index % 2 ? 56 : -56, duration: 1, stagger: 0.055 })
           .from(highlights, { opacity: 0.24, duration: 1.1, ease: "sine.out" }, 0.32)
           .from(portrait, { autoAlpha: 0, yPercent: 24, scale: 0.9, duration: 1.25, ease: "power4.out" }, 0.38);
 
@@ -95,15 +96,17 @@ export default function HeroSection() {
     <section ref={sectionRef} id="home" className="relative overflow-hidden bg-canvas pt-16 text-ink">
       <div data-hero-wall className="pointer-events-none relative flex flex-col overflow-hidden border-y border-line bg-panel select-none" aria-hidden>
         {bands.map((band, bandIndex) => (
-          <div key={bandIndex} data-hero-track data-direction={band.direction} data-duration={band.duration} className="flex w-max transform-gpu whitespace-nowrap [backface-visibility:hidden] will-change-transform">
-            {[0, 1].map((copy) => (
-              <p key={copy} className="pr-12 text-[clamp(2.35rem,5.3vw,5.4rem)] leading-[0.84] font-bold tracking-[-0.042em] uppercase">
-                {[0, 1, 2].map((cycle) => band.words.map((word, wordIndex) => {
-                  const isHighlighted = highlightedWords.has(word);
-                  return <span key={`${cycle}-${word}-${wordIndex}`} data-hero-highlight={isHighlighted ? "" : undefined} className={isHighlighted ? `inline-block ${bandIndex % 2 ? "text-accent/70" : "text-accent/55"}` : "text-ink/16"}>{word}</span>;
-                }))}
-              </p>
-            ))}
+          <div key={bandIndex} data-hero-row className="w-full">
+            <div data-hero-track data-direction={band.direction} data-duration={band.duration} className="flex w-max transform-gpu whitespace-nowrap [backface-visibility:hidden] will-change-transform">
+              {[0, 1].map((copy) => (
+                <p key={copy} className="pr-12 text-[clamp(2.35rem,5.3vw,5.4rem)] leading-[0.84] font-bold tracking-[-0.042em] uppercase">
+                  {[0, 1, 2].map((cycle) => band.words.map((word, wordIndex) => {
+                    const isHighlighted = highlightedWords.has(word);
+                    return <span key={`${cycle}-${word}-${wordIndex}`} data-hero-highlight={isHighlighted ? "" : undefined} className={isHighlighted ? `inline-block ${bandIndex % 2 ? "text-accent/70" : "text-accent/55"}` : "text-ink/16"}>{word}</span>;
+                  }))}
+                </p>
+              ))}
+            </div>
           </div>
         ))}
 
