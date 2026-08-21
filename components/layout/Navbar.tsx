@@ -37,7 +37,7 @@ export default function Navbar() {
       <Container className="flex h-16 items-center justify-between">
         <Link
           href="/"
-          className="relative block h-9 w-12 overflow-hidden rounded-sm bg-black shadow-[0_0_0_1px_rgba(31,96,71,0.18)] transition-transform duration-300 hover:scale-[1.04]"
+          className="relative block h-9 w-12 overflow-hidden transition-transform duration-300 hover:scale-[1.04]"
           aria-label="Teodor Hristov, home"
         >
           <Image

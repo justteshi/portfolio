@@ -109,7 +109,7 @@ export default function ContactSection() {
         </div>
 
         <footer data-contact-footer className="mt-24 border-t border-white/20 pt-8">
-          <div className="relative h-[clamp(5rem,9vw,8rem)] overflow-hidden bg-canvas">
+          <div className="relative h-[clamp(5rem,9vw,8rem)] overflow-hidden">
             <Image
               src="/personal_logo_name.png"
               alt="Teodor Hristov"
