@@ -1,6 +1,7 @@
 "use client";
 
 import { useGSAP } from "@gsap/react";
+import Image from "next/image";
 import Link from "next/link";
 import { useRef } from "react";
 import { FaArrowRightLong, FaArrowUpLong, FaGithub } from "react-icons/fa6";
@@ -78,7 +79,12 @@ export default function ContactSection() {
   return (
     <section ref={sectionRef} id="contact" className="relative overflow-hidden bg-ink pt-[var(--section-space)] text-canvas scroll-mt-20">
       <Container>
-        <p data-contact-label className="eyebrow mb-10 before:bg-signal">07 / Contact</p>
+        <div data-contact-label className="mb-10 flex items-center justify-between gap-6">
+          <p className="eyebrow before:bg-signal">07 / Contact</p>
+          <Link href="#home" className="inline-flex items-center gap-2 font-mono text-xs tracking-widest text-white/60 uppercase transition-colors hover:text-signal">
+            Back to top <FaArrowUpLong aria-hidden />
+          </Link>
+        </div>
         <h2 className="text-[clamp(4.5rem,15vw,14rem)] leading-[0.76] font-semibold tracking-[-0.075em]" aria-label="Let's talk">
           <span className="block overflow-hidden"><span data-contact-word className="block">LET&apos;S</span></span>
           <span className="block overflow-hidden text-signal"><span data-contact-word className="block text-right">TALK.</span></span>
@@ -102,9 +108,18 @@ export default function ContactSection() {
           </form>
         </div>
 
-        <footer data-contact-footer className="mt-24 flex flex-col gap-5 border-t border-white/20 py-7 font-mono text-xs uppercase tracking-widest text-white/45 sm:flex-row sm:items-center sm:justify-between">
-          <p>Teodor Hristov © {new Date().getFullYear()}</p>
-          <div className="flex items-center gap-6"><p>Sofia, Bulgaria</p><Link href="#home" className="inline-flex items-center gap-2 text-canvas">Back to top <FaArrowUpLong aria-hidden /></Link></div>
+        <footer data-contact-footer className="mt-24 border-t border-white/20 pt-8">
+          <div className="relative h-[clamp(5rem,9vw,8rem)] overflow-hidden bg-canvas">
+            <Image
+              src="/personal_logo_name.png"
+              alt="Teodor Hristov"
+              width={2172}
+              height={724}
+              sizes="(max-width: 1280px) 100vw, 1280px"
+              className="absolute left-1/2 top-1/2 h-auto w-full -translate-x-1/2 -translate-y-[54%]"
+            />
+          </div>
+          <p className="py-7 font-mono text-xs tracking-widest text-white/45 uppercase">Teodor Hristov © {new Date().getFullYear()}</p>
         </footer>
       </Container>
     </section>
