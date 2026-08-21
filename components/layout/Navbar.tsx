@@ -3,7 +3,6 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { AiOutlineClose, AiOutlineMenu } from "react-icons/ai";
 import Container from "@/components/ui/Container";
 
 const navigation = [
@@ -45,11 +44,12 @@ export default function Navbar() {
   }, [open]);
 
   return (
-    <header className={`fixed inset-x-0 top-0 z-50 py-3 text-ink transition-[background-color,box-shadow] duration-500 ${open ? "bg-canvas" : scrolled ? "bg-canvas/70 shadow-[0_1px_0_rgba(19,37,28,0.08)] backdrop-blur-xl" : "bg-canvas"}`}>
-      <Container className="flex h-12 items-center justify-between">
+    <header className="fixed inset-x-0 top-0 z-50 py-3 text-ink">
+      <Container className="relative z-20 flex h-12 items-center justify-between">
         <Link
           href="/"
-          className="group relative block h-11 w-14 overflow-hidden border border-ink/15 bg-canvas transition-transform duration-300 hover:-translate-y-0.5"
+          onClick={() => setOpen(false)}
+          className={`group relative block h-11 w-14 overflow-hidden border transition-[transform,background-color,border-color] duration-500 hover:-translate-y-0.5 ${open ? "border-white/20 bg-white/5" : "border-ink/15 bg-canvas/90 backdrop-blur-md"}`}
           aria-label="Teodor Hristov, home"
         >
           <span className="absolute right-0 bottom-0 z-10 size-2 bg-signal transition-[width] duration-300 group-hover:w-full" aria-hidden />
@@ -60,40 +60,74 @@ export default function Navbar() {
             height={1024}
             priority
             sizes="66px"
-            className="absolute left-1/2 top-1/2 h-11 w-[66px] max-w-none -translate-x-1/2 -translate-y-1/2"
+            className={`absolute left-1/2 top-1/2 h-11 w-[66px] max-w-none -translate-x-1/2 -translate-y-1/2 transition-[filter] duration-500 ${open ? "grayscale invert brightness-125" : ""}`}
           />
         </Link>
-        <nav className="hidden overflow-hidden bg-ink text-canvas [clip-path:polygon(0.65rem_0,100%_0,100%_calc(100%_-_0.65rem),calc(100%_-_0.65rem)_100%,0_100%,0_0.65rem)] lg:block" aria-label="Primary navigation">
-          <ul className="flex items-stretch">
-            {navigation.map((item, index) => {
-              const id = item.href.split("#")[1];
-              const active = activeSection === id;
-              return (
-                <li key={item.label} className="border-r border-white/10 last:border-r-0">
-                  <Link
-                    className={`group relative flex min-w-[4.7rem] flex-col px-3 py-2 transition-colors duration-300 xl:min-w-[5.35rem] xl:px-4 ${active ? "bg-white/8 text-signal" : "text-canvas/60 hover:bg-white/6 hover:text-canvas"}`}
-                    href={item.href}
-                    aria-current={active ? "location" : undefined}
-                  >
-                    <span className="font-mono text-[0.5rem] tracking-[0.14em] opacity-55">{String(index + 1).padStart(2, "0")}</span>
-                    <span className="mt-0.5 font-mono text-[0.62rem] font-semibold tracking-[0.08em] uppercase">{item.label}</span>
-                    <span className={`absolute inset-x-0 bottom-0 h-0.5 origin-left bg-signal transition-transform duration-300 ${active ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`} aria-hidden />
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
-        </nav>
-        <button type="button" onClick={() => setOpen((value) => !value)} className={`grid h-11 w-12 place-items-center border transition-colors lg:hidden ${open ? "border-ink bg-ink text-canvas" : "border-ink/20 bg-panel"}`} aria-label={open ? "Close navigation" : "Open navigation"} aria-expanded={open}>{open ? <AiOutlineClose size={21} /> : <AiOutlineMenu size={21} />}</button>
+
+        <div className={`pointer-events-none absolute left-1/2 hidden -translate-x-1/2 items-center gap-3 font-mono text-[0.58rem] tracking-[0.16em] uppercase transition-colors duration-500 sm:flex ${open ? "text-white/40" : "text-muted"}`} aria-hidden>
+          <span className={`size-1.5 ${open ? "bg-signal" : scrolled ? "bg-accent" : "bg-signal"}`} />
+          <span>{open ? "Choose a destination" : activeSection === "home" ? "Portfolio / 2026" : `Viewing / ${activeSection}`}</span>
+        </div>
+
+        <button
+          type="button"
+          onClick={() => setOpen((value) => !value)}
+          className={`group flex h-11 items-center gap-4 border px-4 font-mono text-[0.62rem] font-semibold tracking-[0.14em] uppercase transition-colors duration-500 ${open ? "border-white/20 bg-signal text-ink" : "border-ink/15 bg-ink text-canvas hover:bg-accent"}`}
+          aria-label={open ? "Close navigation" : "Open navigation"}
+          aria-expanded={open}
+        >
+          <span>{open ? "Close" : "Index"}</span>
+          <span className="relative block h-3 w-5" aria-hidden>
+            <span className={`absolute left-0 top-0.5 h-px bg-current transition-all duration-500 ${open ? "top-1.5 w-5 rotate-45" : "w-5 group-hover:w-3"}`} />
+            <span className={`absolute right-0 bottom-0.5 h-px bg-current transition-all duration-500 ${open ? "bottom-[0.3rem] w-5 -rotate-45" : "w-3 group-hover:w-5"}`} />
+          </span>
+        </button>
       </Container>
-      {open ? (
-        <nav className="mt-3 min-h-[calc(100svh-4.5rem)] border-t border-ink/15 bg-canvas lg:hidden" aria-label="Mobile navigation">
-          <Container>
-            <ul className="divide-y divide-ink/15">{navigation.map((item, index) => <li key={item.label}><Link className="group flex items-center justify-between py-5 text-[clamp(1.65rem,8vw,2.5rem)] font-semibold tracking-[-0.05em]" href={item.href} onClick={() => setOpen(false)}><span className="transition-transform duration-300 group-hover:translate-x-2">{item.label}</span><span className="grid h-8 w-10 place-items-center bg-panel font-mono text-[0.6rem] tracking-widest text-muted transition-colors group-hover:bg-signal group-hover:text-ink">{String(index + 1).padStart(2, "0")}</span></Link></li>)}</ul>
-            <div className="flex items-center justify-between border-t border-ink py-5 font-mono text-[0.6rem] tracking-[0.14em] text-muted uppercase"><span>TH / Portfolio</span><span>{new Date().getFullYear()}</span></div>
-          </Container>
-        </nav>
-      ) : null}
+
+      <nav className={`fixed inset-0 z-10 overflow-y-auto bg-ink pt-24 text-canvas transition-[opacity,visibility] duration-500 ${open ? "visible opacity-100" : "invisible opacity-0"}`} aria-label="Primary navigation" aria-hidden={!open}>
+        <span className="pointer-events-none absolute -right-[0.04em] -bottom-[0.24em] font-mono text-[clamp(18rem,45vw,44rem)] leading-none font-bold tracking-[-0.14em] text-white/[0.025] select-none" aria-hidden>TH</span>
+        <Container className="relative grid min-h-[calc(100svh-6rem)] md:grid-cols-[0.3fr_0.7fr] md:gap-12">
+          <div className="hidden flex-col justify-between border-r border-white/15 py-8 pr-10 md:flex">
+            <div>
+              <p className="font-mono text-[0.6rem] tracking-[0.18em] text-white/35 uppercase">Navigation index</p>
+              <p className="mt-5 max-w-48 text-xl leading-tight text-white/65">Move through the work, process, tools, and story.</p>
+            </div>
+            <div>
+              <p className="text-[clamp(5rem,9vw,9rem)] leading-[0.75] font-semibold tracking-[-0.08em] text-signal">{activeSection === "home" ? "00" : String(navigation.findIndex((item) => item.href.endsWith(activeSection)) + 1).padStart(2, "0")}</p>
+              <p className="mt-5 font-mono text-[0.58rem] tracking-[0.16em] text-white/35 uppercase">Current position</p>
+            </div>
+          </div>
+
+          <div className="flex flex-col justify-between py-3 md:py-8">
+            <ul className="border-t border-white/20">
+              {navigation.map((item, index) => {
+                const id = item.href.split("#")[1];
+                const active = activeSection === id;
+                return (
+                  <li key={item.label} className="border-b border-white/20">
+                    <Link
+                      className={`group flex items-center justify-between py-[clamp(0.65rem,1.4vh,1.15rem)] transition-colors duration-300 ${active ? "text-signal" : "text-canvas hover:text-signal"}`}
+                      href={item.href}
+                      onClick={() => setOpen(false)}
+                      aria-current={active ? "location" : undefined}
+                      tabIndex={open ? 0 : -1}
+                    >
+                      <span className="flex items-start gap-4 sm:gap-7">
+                        <span className="mt-1 font-mono text-[0.55rem] tracking-widest text-white/35">{String(index + 1).padStart(2, "0")}</span>
+                        <span className="text-[clamp(1.75rem,5.4vw,5.5rem)] leading-[0.85] font-semibold tracking-[-0.065em] uppercase transition-transform duration-500 ease-[var(--ease-out)] group-hover:translate-x-3">{item.label}</span>
+                      </span>
+                      <span className={`font-mono text-lg transition-[transform,opacity] duration-300 group-hover:translate-x-0 group-hover:opacity-100 ${active ? "translate-x-0 opacity-100" : "-translate-x-3 opacity-0"}`} aria-hidden>↗</span>
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+            <div className="flex items-center justify-between py-5 font-mono text-[0.55rem] tracking-[0.16em] text-white/35 uppercase">
+              <span>Teodor Hristov / Developer</span><span>© {new Date().getFullYear()}</span>
+            </div>
+          </div>
+        </Container>
+      </nav>
     </header>
   );
 }
