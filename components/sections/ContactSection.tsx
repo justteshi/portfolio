@@ -116,7 +116,7 @@ export default function ContactSection() {
               width={2172}
               height={724}
               sizes="(max-width: 1280px) 100vw, 1280px"
-              className="absolute left-1/2 top-1/2 h-auto w-full -translate-x-1/2 -translate-y-[54%]"
+              className="absolute left-1/2 top-1/2 h-auto w-full -translate-x-1/2 -translate-y-[54%] grayscale invert brightness-125 contrast-125"
             />
           </div>
           <p className="py-7 font-mono text-xs tracking-widest text-white/45 uppercase">Teodor Hristov © {new Date().getFullYear()}</p>
