@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { AiOutlineClose, AiOutlineMenu } from "react-icons/ai";
 import Container from "@/components/ui/Container";
@@ -34,7 +35,21 @@ export default function Navbar() {
   return (
     <header className={`fixed inset-x-0 top-0 z-50 text-ink transition-colors ${scrolled || open ? "border-b border-line bg-canvas/95 backdrop-blur-md" : "bg-canvas"}`}>
       <Container className="flex h-16 items-center justify-between">
-        <Link href="/" className="font-mono text-sm font-bold tracking-[-0.04em]" aria-label="Teo, home">TEO<span className="text-accent">.</span></Link>
+        <Link
+          href="/"
+          className="relative block h-9 w-12 overflow-hidden rounded-sm bg-black shadow-[0_0_0_1px_rgba(31,96,71,0.18)] transition-transform duration-300 hover:scale-[1.04]"
+          aria-label="Teodor Hristov, home"
+        >
+          <Image
+            src="/personal_logo.png"
+            alt=""
+            width={1536}
+            height={1024}
+            priority
+            sizes="66px"
+            className="absolute left-1/2 top-1/2 h-11 w-[66px] max-w-none -translate-x-1/2 -translate-y-1/2"
+          />
+        </Link>
         <nav className="hidden lg:block" aria-label="Primary navigation">
           <ul className="flex items-center gap-8">{navigation.map((item) => <li key={item.label}><Link className="font-mono text-xs font-medium uppercase tracking-widest text-muted transition-colors hover:text-ink" href={item.href}>{item.label}</Link></li>)}</ul>
         </nav>

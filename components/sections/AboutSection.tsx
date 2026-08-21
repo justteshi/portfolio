@@ -1,6 +1,7 @@
 "use client";
 
 import { useGSAP } from "@gsap/react";
+import Image from "next/image";
 import { useRef } from "react";
 import Container from "@/components/ui/Container";
 import { getGsap } from "@/lib/gsap";
@@ -124,6 +125,17 @@ export default function AboutSection() {
               <span data-about-title-word className="inline-block">stack.</span>
             </span>
           </h2>
+        </div>
+
+        <div data-about-reveal className="relative mb-12 h-[clamp(4.5rem,8vw,7rem)] overflow-hidden border-y border-ink/10 sm:mb-16">
+          <Image
+            src="/personal_logo_name.png"
+            alt="Teodor Hristov"
+            width={2172}
+            height={724}
+            sizes="(max-width: 1280px) 100vw, 1280px"
+            className="absolute left-1/2 top-1/2 h-auto w-full -translate-x-1/2 -translate-y-[54%]"
+          />
         </div>
 
         <div className="grid items-start gap-8 lg:grid-cols-[0.28fr_0.72fr] lg:gap-12">
