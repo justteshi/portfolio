@@ -3,7 +3,7 @@
 import { useGSAP } from "@gsap/react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FaArrowRightLong, FaArrowUpLong, FaGithub } from "react-icons/fa6";
 import Container from "@/components/ui/Container";
 import { getGsap } from "@/lib/gsap";
@@ -11,6 +11,14 @@ import { motionDebug } from "@/lib/motion";
 
 export default function ContactSection() {
   const sectionRef = useRef<HTMLElement>(null);
+  const [showBackToTop, setShowBackToTop] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => setShowBackToTop(window.scrollY > window.innerHeight * 0.75);
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   useGSAP(() => {
     const section = sectionRef.current;
@@ -77,14 +85,10 @@ export default function ContactSection() {
   }, { scope: sectionRef });
 
   return (
-    <section ref={sectionRef} id="contact" className="relative overflow-hidden bg-ink pt-[var(--section-space)] text-canvas scroll-mt-20">
-      <Container>
-        <div data-contact-label className="mb-10 flex items-center justify-between gap-6">
-          <p className="eyebrow before:bg-signal">07 / Contact</p>
-          <Link href="#home" className="inline-flex items-center gap-2 font-mono text-xs tracking-widest text-white/60 uppercase transition-colors hover:text-signal">
-            Back to top <FaArrowUpLong aria-hidden />
-          </Link>
-        </div>
+    <>
+      <section ref={sectionRef} id="contact" className="relative overflow-hidden bg-ink pt-[var(--section-space)] text-canvas scroll-mt-20">
+        <Container>
+        <p data-contact-label className="eyebrow mb-10 before:bg-signal">07 / Contact</p>
         <h2 className="text-[clamp(4.5rem,15vw,14rem)] leading-[0.76] font-semibold tracking-[-0.075em]" aria-label="Let's talk">
           <span className="block overflow-hidden"><span data-contact-word className="block">LET&apos;S</span></span>
           <span className="block overflow-hidden text-signal"><span data-contact-word className="block text-right">TALK.</span></span>
@@ -120,8 +124,23 @@ export default function ContactSection() {
             />
           </div>
           <p className="py-7 font-mono text-xs tracking-widest text-white/45 uppercase">Teodor Hristov © {new Date().getFullYear()}</p>
-        </footer>
-      </Container>
-    </section>
+          </footer>
+        </Container>
+      </section>
+
+      <Link
+        href="#home"
+        aria-label="Back to top"
+        className={`group fixed right-4 bottom-4 z-40 flex overflow-hidden border border-ink/15 bg-canvas/95 text-ink shadow-[0_0.75rem_2.5rem_rgba(19,37,28,0.18)] backdrop-blur-md transition-[opacity,transform] duration-500 ease-[var(--ease-out)] sm:right-6 sm:bottom-6 ${showBackToTop ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-5 opacity-0"}`}
+      >
+        <span className="flex min-w-28 flex-col justify-center px-4 py-2.5 sm:min-w-32 sm:px-5">
+          <span className="font-mono text-[0.55rem] font-semibold tracking-[0.16em] text-muted uppercase">Return</span>
+          <span className="mt-0.5 text-sm font-semibold tracking-[-0.025em]">Back to top</span>
+        </span>
+        <span className="grid w-11 place-items-center border-l border-ink/15 bg-signal transition-colors group-hover:bg-ink group-hover:text-canvas sm:w-12">
+          <FaArrowUpLong className="transition-transform duration-300 group-hover:-translate-y-1" aria-hidden />
+        </span>
+      </Link>
+    </>
   );
 }
