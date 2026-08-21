@@ -2,7 +2,6 @@
 
 import { useGSAP } from "@gsap/react";
 import Image from "next/image";
-import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { FaArrowRightLong, FaArrowUpLong, FaGithub } from "react-icons/fa6";
 import Container from "@/components/ui/Container";
@@ -128,19 +127,21 @@ export default function ContactSection() {
         </Container>
       </section>
 
-      <Link
-        href="#home"
+      <button
+        type="button"
+        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
         aria-label="Back to top"
-        className={`group fixed right-4 bottom-4 z-40 flex overflow-hidden border border-ink/15 bg-canvas/95 text-ink shadow-[0_0.75rem_2.5rem_rgba(19,37,28,0.18)] backdrop-blur-md transition-[opacity,transform] duration-500 ease-[var(--ease-out)] sm:right-6 sm:bottom-6 ${showBackToTop ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-5 opacity-0"}`}
+        className={`group fixed right-3 bottom-3 z-[60] flex touch-manipulation overflow-hidden border border-ink/15 bg-canvas/95 text-ink shadow-[0_0.75rem_2.5rem_rgba(19,37,28,0.18)] backdrop-blur-md transition-[opacity,transform] duration-500 ease-[var(--ease-out)] sm:right-6 sm:bottom-6 ${showBackToTop ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-5 opacity-0"}`}
       >
-        <span className="flex min-w-28 flex-col justify-center px-4 py-2.5 sm:min-w-32 sm:px-5">
+        <span className="hidden min-w-32 flex-col justify-center px-5 py-2.5 sm:flex">
           <span className="font-mono text-[0.55rem] font-semibold tracking-[0.16em] text-muted uppercase">Return</span>
           <span className="mt-0.5 text-sm font-semibold tracking-[-0.025em]">Back to top</span>
         </span>
-        <span className="grid w-11 place-items-center border-l border-ink/15 bg-signal transition-colors group-hover:bg-ink group-hover:text-canvas sm:w-12">
+        <span className="flex h-10 items-center gap-2 bg-signal px-3 font-mono text-[0.65rem] font-semibold tracking-[0.12em] uppercase transition-colors group-hover:bg-ink group-hover:text-canvas sm:h-auto sm:w-12 sm:justify-center sm:border-l sm:border-ink/15 sm:px-0">
+          <span className="sm:hidden">Top</span>
           <FaArrowUpLong className="transition-transform duration-300 group-hover:-translate-y-1" aria-hidden />
         </span>
-      </Link>
+      </button>
     </>
   );
 }
