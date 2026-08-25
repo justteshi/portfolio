@@ -14,7 +14,7 @@ export default function CurrentlySection() {
   useGSAP(() => {
     const section = sectionRef.current;
     if (!section) return;
-    const { gsap, ScrollTrigger } = getGsap();
+    const { gsap } = getGsap();
     const media = gsap.matchMedia();
 
     media.add("(prefers-reduced-motion: no-preference)", () => {
@@ -33,19 +33,14 @@ export default function CurrentlySection() {
       const loop = gsap.timeline({ paused: true, repeat: -1 });
       loop.to(orbit, { rotate: 360, duration: 24, ease: "none" }, 0).to(signal, { scale: 1.45, autoAlpha: 0.45, duration: 1.2, yoyo: true, repeat: 1, ease: "sine.inOut" }, 0);
 
-      const visibilityTrigger = ScrollTrigger.create({
-        trigger: section,
-        start: "top bottom",
-        end: "bottom top",
-        onEnter: () => loop.play(),
-        onEnterBack: () => loop.play(),
-        onLeave: () => loop.pause(),
-        onLeaveBack: () => loop.pause(),
-        markers: motionDebug,
+      const observer = new IntersectionObserver(([entry]) => {
+        if (entry.isIntersecting) loop.play();
+        else loop.pause();
       });
+      observer.observe(section);
 
       return () => {
-        visibilityTrigger.kill();
+        observer.disconnect();
         loop.kill();
       };
     });
@@ -56,7 +51,7 @@ export default function CurrentlySection() {
   return (
     <section ref={sectionRef} id="currently" className="section-shell section-rule scroll-mt-20 bg-panel">
       <Container>
-        <div data-current-heading><SectionHeading eyebrow="05 / Currently" title="What has my attention right now." motion={false} /></div>
+        <div data-current-heading><SectionHeading eyebrow="04 / Currently" title="What has my attention right now." motion={false} /></div>
 
         <div className="mt-16 grid gap-12 lg:grid-cols-[0.4fr_1fr] lg:gap-20">
           <div className="relative grid min-h-64 place-items-center overflow-hidden rounded-[var(--radius-lg)] bg-ink text-canvas" aria-hidden>

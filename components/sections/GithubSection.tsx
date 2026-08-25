@@ -7,7 +7,7 @@ export default function GithubSection() {
   return (
     <section id="github" className="section-shell section-rule scroll-mt-20">
       <Container>
-        <SectionHeading eyebrow="06 / GitHub" title="Public work, experiments, and works in progress." description="A curated view of recent repositories from the verified profile behind this portfolio." />
+        <SectionHeading eyebrow="05 / GitHub" title="Public work, experiments, and works in progress." description="A curated view of recent repositories from the verified profile behind this portfolio." />
 
         <div className="mt-16 grid gap-6 lg:grid-cols-[0.38fr_1fr] lg:gap-12">
           <aside className="flex h-fit flex-col justify-between rounded-[var(--radius-lg)] bg-ink p-6 text-canvas lg:sticky lg:top-24 lg:min-h-80" data-motion="reveal">

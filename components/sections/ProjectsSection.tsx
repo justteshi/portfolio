@@ -23,11 +23,10 @@ export default function ProjectsSection() {
         const { desktop, reduceMotion } = context.conditions as { desktop: boolean; reduceMotion: boolean };
         const titleLines = gsap.utils.toArray<HTMLElement>("[data-project-title-line]");
         const cards = gsap.utils.toArray<HTMLElement>("[data-project-card]");
-        const images = gsap.utils.toArray<HTMLElement>("[data-project-image]");
         const imageInners = gsap.utils.toArray<HTMLElement>("[data-project-image-inner]");
 
         if (reduceMotion) {
-          gsap.set([...titleLines, ...cards, ...images, ...imageInners], { clearProps: "all" });
+          gsap.set([...titleLines, ...cards, ...imageInners], { clearProps: "all" });
           return;
         }
 
@@ -55,16 +54,6 @@ export default function ProjectsSection() {
             })
             .from(image, { scale: 1.16, duration: 1.35, ease: "power3.out" }, 0);
         });
-
-        if (desktop) {
-          images.forEach((image) => {
-            gsap.fromTo(image, { yPercent: -3 }, {
-              yPercent: 3,
-              ease: "none",
-              scrollTrigger: { trigger: image, start: "top bottom", end: "bottom top", scrub: 0.7, markers: motionDebug },
-            });
-          });
-        }
       },
     );
 

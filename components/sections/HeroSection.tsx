@@ -4,7 +4,6 @@ import { useGSAP } from "@gsap/react";
 import Image from "next/image";
 import { useRef } from "react";
 import { getGsap } from "@/lib/gsap";
-import { motionDebug } from "@/lib/motion";
 
 const bands = [
   { direction: -1, duration: 270, words: ["MAKER. ", "PROBLEM ", "SOLVER. ", "TECH ", "GENERALIST. "] },
@@ -32,7 +31,7 @@ export default function HeroSection() {
   useGSAP(() => {
     const section = sectionRef.current;
     if (!section) return;
-    const { gsap, ScrollTrigger } = getGsap();
+    const { gsap } = getGsap();
     const media = gsap.matchMedia();
 
     media.add(
@@ -62,7 +61,7 @@ export default function HeroSection() {
         const marquees = tracks.map((track) => {
           const direction = Number(track.dataset.direction);
           const duration = Number(track.dataset.duration);
-          return gsap.fromTo(track, { xPercent: direction < 0 ? 0 : -50 }, { xPercent: direction < 0 ? -50 : 0, duration, repeat: -1, ease: "none", force3D: true, overwrite: "auto" });
+          return gsap.fromTo(track, { xPercent: direction < 0 ? 0 : -50 }, { xPercent: direction < 0 ? -50 : 0, duration, repeat: -1, ease: "none", force3D: true, overwrite: "auto", paused: true });
         });
 
         gsap.timeline({ defaults: { ease: "power3.out" } })
@@ -74,18 +73,12 @@ export default function HeroSection() {
           gsap.to(portraitFloat, { y: -8, duration: 5.5, repeat: -1, yoyo: true, ease: "sine.inOut" });
         }
 
-        const visibilityTrigger = ScrollTrigger.create({
-          trigger: section,
-          start: "top bottom",
-          end: "bottom top",
-          onEnter: () => marquees.forEach((marquee) => marquee.play()),
-          onEnterBack: () => marquees.forEach((marquee) => marquee.play()),
-          onLeave: () => marquees.forEach((marquee) => marquee.pause()),
-          onLeaveBack: () => marquees.forEach((marquee) => marquee.pause()),
-          markers: motionDebug,
+        const observer = new IntersectionObserver(([entry]) => {
+          marquees.forEach((marquee) => entry.isIntersecting ? marquee.play() : marquee.pause());
         });
+        observer.observe(section);
 
-        return () => visibilityTrigger.kill();
+        return () => observer.disconnect();
       },
     );
 
@@ -93,7 +86,7 @@ export default function HeroSection() {
   }, { scope: sectionRef });
 
   return (
-    <section ref={sectionRef} id="home" className="relative overflow-hidden bg-canvas pt-16 text-ink">
+    <section ref={sectionRef} id="home" className="relative overflow-hidden bg-canvas text-ink">
       <div data-hero-wall className="pointer-events-none relative flex flex-col overflow-hidden border-y border-line bg-panel select-none" aria-hidden>
         {bands.map((band, bandIndex) => (
           <div key={bandIndex} data-hero-row className="w-full">

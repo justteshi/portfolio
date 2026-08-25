@@ -87,7 +87,7 @@ export default function ContactSection() {
     <>
       <section ref={sectionRef} id="contact" className="relative overflow-hidden bg-ink pt-[var(--section-space)] text-canvas scroll-mt-20">
         <Container>
-        <p data-contact-label className="eyebrow mb-10 before:bg-signal">07 / Contact</p>
+        <p data-contact-label className="eyebrow mb-10 before:bg-signal">06 / Contact</p>
         <h2 className="text-[clamp(4.5rem,15vw,14rem)] leading-[0.76] font-semibold tracking-[-0.075em]" aria-label="Let's talk">
           <span className="block overflow-hidden"><span data-contact-word className="block">LET&apos;S</span></span>
           <span className="block overflow-hidden text-signal"><span data-contact-word className="block text-right">TALK.</span></span>
@@ -119,10 +119,10 @@ export default function ContactSection() {
               width={2172}
               height={724}
               sizes="(max-width: 1280px) 100vw, 1280px"
-              className="absolute left-1/2 top-1/2 h-auto w-full -translate-x-1/2 -translate-y-[54%] grayscale invert brightness-125 contrast-125"
+              className="absolute left-1/2 top-1/2 h-auto w-[58%] -translate-x-1/2 -translate-y-[45%] grayscale invert brightness-125 contrast-125 sm:w-[48%]"
             />
           </div>
-          <p className="py-7 font-mono text-xs tracking-widest text-white/45 uppercase">Teodor Hristov © {new Date().getFullYear()}</p>
+          <p className="py-7 text-center font-mono text-xs tracking-widest text-white/45 uppercase">Teodor Hristov © {new Date().getFullYear()}</p>
           </footer>
         </Container>
       </section>

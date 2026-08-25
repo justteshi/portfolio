@@ -64,8 +64,7 @@ export default function AboutSection() {
         timeline
           .from(titleWords, { autoAlpha: 0, yPercent: 115, rotate: (index) => index % 2 ? 3 : -3, duration: 0.95, stagger: 0.07 })
           .from(yearMark, { autoAlpha: 0, rotate: -6, scale: 0.86, duration: 0.9 }, 0.16)
-          .from(revealTargets, { autoAlpha: 0, y: 44, rotate: (index) => index % 2 ? 1.2 : -1.2, duration: 0.75, stagger: 0.1 }, 0.22)
-          .from("[data-about-link]", { autoAlpha: 0, y: 14, duration: 0.5 }, 0.72);
+          .from(revealTargets, { autoAlpha: 0, y: 44, rotate: (index) => index % 2 ? 1.2 : -1.2, duration: 0.75, stagger: 0.1 }, 0.22);
 
         if (titleAccent) {
           gsap.to(titleAccent, {
@@ -129,7 +128,7 @@ export default function AboutSection() {
         <div className="grid items-start gap-8 lg:grid-cols-[0.28fr_0.72fr] lg:gap-12">
           <aside data-about-years className="relative overflow-hidden bg-canvas px-5 py-7 lg:sticky lg:top-28 lg:px-7 lg:py-9">
             <p className="font-mono text-[0.65rem] font-semibold tracking-[0.14em] text-muted uppercase">Professional experience</p>
-            <p className="mt-4 text-[clamp(6rem,14vw,11rem)] leading-[0.72] font-bold tracking-[-0.08em] text-accent">07</p>
+            <p className="mt-6 text-[clamp(6rem,14vw,11rem)] leading-[0.72] font-bold tracking-[-0.08em] text-accent">07</p>
             <div className="mt-6 flex items-end justify-between gap-4">
               <p className="text-2xl leading-none font-bold tracking-[-0.05em] uppercase">Years<br />building</p>
               <span className="size-4 rounded-full bg-signal" aria-hidden />
@@ -151,7 +150,6 @@ export default function AboutSection() {
               ))}
             </div>
 
-            <a data-about-link href="#projects" className="mt-10 inline-flex w-fit items-center gap-4 border-b border-ink pb-2 font-mono text-xs font-semibold tracking-widest uppercase transition-[gap] duration-300 hover:gap-6">View selected projects <span aria-hidden>→</span></a>
           </div>
         </div>
       </Container>

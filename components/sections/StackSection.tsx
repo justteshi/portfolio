@@ -1,55 +1,107 @@
-import Image from "next/image";
 import Container from "@/components/ui/Container";
-import SectionHeading from "@/components/ui/SectionHeading";
 import { skills } from "@/data/portfolio";
+import type { IconType } from "react-icons";
+import { TbApi, TbLeaf, TbShoppingCartCode } from "react-icons/tb";
+import {
+  SiBootstrap,
+  SiCss,
+  SiDjango,
+  SiDocker,
+  SiDoctrine,
+  SiGit,
+  SiHtml5,
+  SiJavascript,
+  SiJquery,
+  SiMysql,
+  SiNodedotjs,
+  SiPhp,
+  SiPostgresql,
+  SiPython,
+  SiReact,
+  SiSass,
+  SiStimulus,
+  SiSymfony,
+  SiTypescript,
+  SiWoocommerce,
+  SiWordpress,
+} from "react-icons/si";
 
-const groups = [
-  {
-    label: "Interface",
-    description: "Semantic, responsive interfaces with a strong visual and interaction layer.",
-    technologies: ["HTML", "CSS", "Sass", "JavaScript", "React"],
-  },
-  {
-    label: "Application",
-    description: "Practical application foundations and server-rendered product experiences.",
-    technologies: ["Python", "Django"],
-  },
-  {
-    label: "Workflow",
-    description: "Versioned, maintainable delivery with a focus on clear iteration.",
-    technologies: ["Git"],
-  },
-] as const;
+const technologyIcons: Record<string, IconType> = {
+  HTML: SiHtml5,
+  CSS: SiCss,
+  Sass: SiSass,
+  JavaScript: SiJavascript,
+  TypeScript: SiTypescript,
+  Bootstrap: SiBootstrap,
+  Python: SiPython,
+  Django: SiDjango,
+  React: SiReact,
+  PHP: SiPhp,
+  Symfony: SiSymfony,
+  Sylius: TbShoppingCartCode,
+  Docker: SiDocker,
+  WordPress: SiWordpress,
+  WooCommerce: SiWoocommerce,
+  "REST APIs": TbApi,
+  jQuery: SiJquery,
+  MySQL: SiMysql,
+  PostgreSQL: SiPostgresql,
+  "Node.js": SiNodedotjs,
+  Stimulus: SiStimulus,
+  Twig: TbLeaf,
+  Doctrine: SiDoctrine,
+  Git: SiGit,
+};
 
 export default function StackSection() {
   return (
-    <section id="stack" className="section-shell section-rule scroll-mt-20">
+    <section id="stack" className="section-shell scroll-mt-20 overflow-hidden bg-panel text-ink">
       <Container>
-        <SectionHeading eyebrow="04 / Stack" title="A focused toolkit, chosen for the work." description="Technology is part of the craft, but never the point of the story." />
+        <header className="relative grid items-end gap-12 lg:grid-cols-[minmax(0,1fr)_22rem] lg:gap-16" data-motion="reveal">
+          <h2 className="text-[clamp(4rem,10vw,9rem)] leading-[0.76] font-bold tracking-[-0.075em] uppercase">
+            <span className="block text-ink">Tools that</span>
+            <span className="block text-accent">earn their</span>
+            <span className="relative block w-fit text-ink">
+              place.
+              <span className="absolute -right-[0.28em] top-[0.02em] size-[0.16em] rounded-full bg-signal" aria-hidden />
+            </span>
+          </h2>
 
-        <div className="mt-16 border-t border-line" data-motion-group>
-          {groups.map((group, index) => {
-            const technologies = skills.filter((skill) => group.technologies.some((name) => name === skill.name));
-            return (
-              <article key={group.label} data-motion-item className="grid gap-8 border-b border-line py-8 md:grid-cols-[0.2fr_0.45fr_0.35fr] md:items-start md:gap-12">
-                <p className="font-mono text-xs uppercase tracking-widest text-muted">{String(index + 1).padStart(2, "0")}</p>
-                <div><h3 className="text-3xl md:text-4xl">{group.label}</h3><p className="mt-4 max-w-lg leading-relaxed text-muted">{group.description}</p></div>
-                <ul className="flex flex-wrap gap-2 md:justify-end" aria-label={`${group.label} technologies`}>
-                  {technologies.map((technology) => (
-                    <li key={technology.name} className="flex items-center gap-2 rounded-full border border-line px-3 py-2 font-mono text-xs">
-                      <Image src={technology.image} alt="" width={18} height={18} />
-                      {technology.name}
-                    </li>
-                  ))}
-                </ul>
-              </article>
-            );
-          })}
-        </div>
+          <aside className="relative bg-signal p-7 shadow-[0.8rem_0.8rem_0_var(--accent)] sm:p-9 lg:-rotate-2">
+            <span className="absolute right-5 top-2 font-mono text-[4.5rem] leading-none text-ink/10" aria-hidden>✦</span>
+            <p className="relative text-[clamp(1.35rem,2vw,1.75rem)] leading-[1.22] font-semibold tracking-[-0.035em]">No loyalty to trends. Just the right technology for the product, the team, and the problem.</p>
+            <div className="mt-9 flex items-end justify-between border-t border-ink/20 pt-4 font-mono text-[0.62rem] font-semibold tracking-[0.14em] uppercase">
+              <span>Working toolkit</span>
+              <span className="text-3xl leading-none font-bold tracking-[-0.08em]">{String(skills.length).padStart(2, "0")}</span>
+            </div>
+          </aside>
+        </header>
 
-        <div className="mt-8 flex flex-col gap-2 font-mono text-xs uppercase tracking-widest text-muted sm:flex-row sm:justify-between" data-motion="reveal">
-          <p>Working set / {String(skills.length).padStart(2, "0")}</p>
-          <p>Always learning, selectively adding</p>
+        <div className="mt-[clamp(5rem,10vw,9rem)] bg-ink p-3 shadow-[0.9rem_0.9rem_0_var(--signal)] sm:p-4">
+          <div className="mb-3 flex items-center justify-between px-2 py-2 font-mono text-[0.6rem] font-semibold tracking-[0.16em] text-white/40 uppercase sm:mb-4 sm:px-3">
+            <span>Technology index</span>
+          </div>
+
+          <ul className="grid gap-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4" data-motion-group aria-label="Technologies">
+            {skills.map((technology, index) => {
+              const TechnologyIcon = technologyIcons[technology.name];
+              const shouldExpandLast = index === skills.length - 1 && skills.length % 2 === 1;
+
+              return (
+                <li
+                  key={technology.name}
+                  data-motion-item
+                  className={`group relative flex min-h-40 overflow-hidden bg-white/[0.055] p-5 text-canvas transition-[background-color,color,transform] duration-500 ease-[var(--ease-out)] hover:-translate-y-1 hover:bg-signal hover:text-ink sm:min-h-48 sm:p-6 ${shouldExpandLast ? "sm:col-span-2 md:col-span-3 lg:col-span-2" : ""}`}
+                >
+                  <span className="relative z-10 flex w-full flex-col justify-between">
+                    <span className="font-mono text-[0.58rem] tracking-[0.14em] text-white/35 transition-colors duration-500 group-hover:text-ink/45">{String(index + 1).padStart(2, "0")}</span>
+                    <span className="text-[clamp(1.25rem,2.15vw,2.2rem)] leading-none font-semibold tracking-[-0.055em]">{technology.name}</span>
+                  </span>
+                  <TechnologyIcon className="pointer-events-none absolute -right-3 -top-3 size-28 rotate-[-8deg] text-white opacity-[0.12] transition-[opacity,transform] duration-500 ease-[var(--ease-out)] group-hover:rotate-0 group-hover:scale-110 group-hover:text-ink group-hover:opacity-[0.18] sm:size-36" aria-hidden />
+                </li>
+              );
+            })}
+          </ul>
         </div>
       </Container>
     </section>

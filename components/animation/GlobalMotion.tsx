@@ -2,7 +2,7 @@
 
 import { useGSAP } from "@gsap/react";
 import { getGsap } from "@/lib/gsap";
-import { motion, motionDebug } from "@/lib/motion";
+import { motion } from "@/lib/motion";
 
 const revealSelector = '[data-motion="reveal"]';
 const groupSelector = "[data-motion-group]";
@@ -10,7 +10,7 @@ const itemSelector = "[data-motion-item]";
 
 export default function GlobalMotion() {
   useGSAP(() => {
-    const { gsap, ScrollTrigger } = getGsap();
+    const { gsap } = getGsap();
     const media = gsap.matchMedia();
 
     media.add(
@@ -31,50 +31,44 @@ export default function GlobalMotion() {
         }
 
         const distance = desktop ? motion.distance.desktop : motion.distance.mobile;
+        const standaloneReveals = reveals.filter((element) => !groupedItems.has(element));
+        const groupItems = new Map<Element, HTMLElement[]>();
 
-        reveals.filter((element) => !groupedItems.has(element)).forEach((element) => {
-          gsap.from(element, {
-            autoAlpha: 0,
-            y: distance,
-            duration: motion.duration.reveal,
-            ease: motion.ease.reveal,
-            scrollTrigger: {
-              trigger: element,
-              start: motion.start.reveal,
-              once: true,
-              markers: motionDebug,
-            },
-          });
-        });
+        gsap.set(standaloneReveals, { autoAlpha: 0, y: distance });
 
         groups.forEach((group) => {
           const items = gsap.utils.toArray<HTMLElement>(itemSelector, group);
           if (!items.length) return;
-
-          gsap.from(items, {
-            autoAlpha: 0,
-            y: distance,
-            duration: motion.duration.reveal,
-            ease: motion.ease.reveal,
-            stagger: motion.stagger.default,
-            scrollTrigger: {
-              trigger: group,
-              start: motion.start.reveal,
-              once: true,
-              markers: motionDebug,
-            },
-          });
+          groupItems.set(group, items);
+          gsap.set(items, { autoAlpha: 0, y: distance });
         });
+
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            const items = groupItems.get(entry.target);
+            gsap.to(items ?? entry.target, {
+              autoAlpha: 1,
+              y: 0,
+              duration: motion.duration.reveal,
+              ease: motion.ease.reveal,
+              stagger: items ? motion.stagger.default : 0,
+              overwrite: "auto",
+            });
+            observer.unobserve(entry.target);
+          });
+        }, { rootMargin: "0px 0px -12% 0px" });
+
+        standaloneReveals.forEach((element) => observer.observe(element));
+        groups.forEach((group) => {
+          if (groupItems.has(group)) observer.observe(group);
+        });
+
+        return () => observer.disconnect();
       },
     );
 
-    let active = true;
-    document.fonts.ready.then(() => {
-      if (active) ScrollTrigger.refresh();
-    });
-
     return () => {
-      active = false;
       media.revert();
     };
   }, []);

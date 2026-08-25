@@ -53,6 +53,7 @@ p { text-wrap: pretty; }
 .eyebrow { display: inline-flex; align-items: center; gap: 0.65rem; font-family: var(--font-geist-mono), monospace; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.1em; line-height: 1; text-transform: uppercase; }
 .eyebrow::before { width: 0.5rem; height: 0.5rem; border-radius: 999px; background: var(--signal); content: ""; }
 .interactive-lift { transition: transform var(--duration-base) var(--ease-out), border-color var(--duration-fast), background-color var(--duration-fast); }
+.menu-display { font-family: Impact, Haettenschweiler, "Arial Narrow Bold", "Arial Narrow", sans-serif; font-stretch: condensed; }
 @media (hover: hover) { .interactive-lift:hover { transform: translateY(-0.25rem); } }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
